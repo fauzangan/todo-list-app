@@ -3,6 +3,7 @@ package todo_list_app.todo_list_app.service.implement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import todo_list_app.todo_list_app.model.ToDo;
 import todo_list_app.todo_list_app.model.ToDoStatus;
@@ -10,6 +11,7 @@ import todo_list_app.todo_list_app.model.User;
 import todo_list_app.todo_list_app.repository.ToDoRepository;
 import todo_list_app.todo_list_app.security.JwtService;
 import todo_list_app.todo_list_app.service.ToDoService;
+import todo_list_app.todo_list_app.specification.ToDoSpecification;
 import todo_list_app.todo_list_app.utils.dto.ToDoDTO;
 import todo_list_app.todo_list_app.utils.helper.DateFormatter;
 import todo_list_app.todo_list_app.utils.request.StatusRequest;
@@ -93,8 +95,9 @@ public class TodoServiceImplement implements ToDoService {
     }
 
     @Override
-    public Page<TodoAdminResponse> getAll(Pageable pageable) {
-        Page<ToDo> todos = toDoRepository.findAll(pageable);
+    public Page<TodoAdminResponse> getAll(Integer userId, String status, String title, Pageable pageable) {
+        Specification<ToDo> spec = ToDoSpecification.buildToDoSpecification(userId, status, title);
+        Page<ToDo> todos = toDoRepository.findAll(spec, pageable);
 
         return todos.map(
                 toDo -> TodoAdminResponse.builder()

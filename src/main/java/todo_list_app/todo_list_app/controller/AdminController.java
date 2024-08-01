@@ -72,8 +72,12 @@ public class AdminController {
 
 
     @GetMapping("/todos")
-    public PageResponse<TodoAdminResponse> getAllTodos(Pageable pageable){
-        return new PageResponse<>(toDoService.getAll(pageable));
+    public PageResponse<TodoAdminResponse> getAllTodos(
+            @RequestParam(required = false) Integer userId,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String title,
+            Pageable pageable) {
+        return new PageResponse<>(toDoService.getAll(userId, status, title, pageable));
     }
 
     @GetMapping("/todos/{id}")

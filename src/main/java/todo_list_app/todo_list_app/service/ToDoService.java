@@ -14,7 +14,7 @@ public interface ToDoService {
     Page<ToDoDTO> getByUserId(Pageable pageable);
     ToDoDTO getByTodoId(Integer todoId);
     ToDoDTO updateTodoItemStatus(Integer id, StatusRequest request);
-    Page<TodoAdminResponse> getAll(Pageable pageable);
+    Page<TodoAdminResponse> getAll(Integer userId, String status, String title, Pageable pageable);
     TodoAdminResponse getOneByIdTodoAdmin(Integer id);
     ToDo update(Integer todoId, ToDoDTO request);
     void delete(Integer taskId);
