@@ -13,6 +13,7 @@ import todo_list_app.todo_list_app.service.ToDoService;
 import todo_list_app.todo_list_app.utils.dto.ToDoDTO;
 import todo_list_app.todo_list_app.utils.helper.DateFormatter;
 import todo_list_app.todo_list_app.utils.request.StatusRequest;
+import todo_list_app.todo_list_app.utils.response.TodoAdminResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -87,6 +88,39 @@ public class TodoServiceImplement implements ToDoService {
                 .description(toDo.getDescription())
                 .dueDate(DateFormatter.convertDateToString(toDo.getDueDate(), "yyyy-MM-dd"))
                 .status(String.valueOf(toDo.getStatus()))
+                .createdAt(DateFormatter.convertDateToString(toDo.getCreatedAt(), "yyyy-MM-dd"))
+                .build();
+    }
+
+    @Override
+    public Page<TodoAdminResponse> getAll(Pageable pageable) {
+        Page<ToDo> todos = toDoRepository.findAll(pageable);
+
+        return todos.map(
+                toDo -> TodoAdminResponse.builder()
+                        .id(String.valueOf(toDo.getId()))
+                        .userId(String.valueOf(toDo.getUser().getId()))
+                        .title(toDo.getTitle())
+                        .description(toDo.getDescription())
+                        .status(toDo.getStatus().toString())
+                        .dueDate(DateFormatter.convertDateToString(toDo.getDueDate(), "yyyy-MM-dd"))
+                        .createdAt(DateFormatter.convertDateToString(toDo.getCreatedAt(), "yyyy-MM-dd"))
+                        .build()
+        );
+    }
+
+    @Override
+    public TodoAdminResponse getOneByIdTodoAdmin(Integer id) {
+        ToDo toDo = toDoRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Todo not found")
+        );
+        return TodoAdminResponse.builder()
+                .id(String.valueOf(toDo.getId()))
+                .userId(String.valueOf(toDo.getUser().getId()))
+                .title(toDo.getTitle())
+                .description(toDo.getDescription())
+                .status(toDo.getStatus().toString())
+                .dueDate(DateFormatter.convertDateToString(toDo.getDueDate(), "yyyy-MM-dd"))
                 .createdAt(DateFormatter.convertDateToString(toDo.getCreatedAt(), "yyyy-MM-dd"))
                 .build();
     }

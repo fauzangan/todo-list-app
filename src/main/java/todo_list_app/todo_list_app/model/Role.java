@@ -1,7 +1,7 @@
 package todo_list_app.todo_list_app.model;
 
 public enum Role {
-    SUPER_ADMIN,
-    ADMIN,
-    USER
+    ROLE_SUPER_ADMIN,
+    ROLE_ADMIN,
+    ROLE_USER
 }

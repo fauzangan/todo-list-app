@@ -1,5 +1,6 @@
 package todo_list_app.todo_list_app.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(@RequestBody @Valid AuthenticationRequest request) {
         return authenticationService.authenticate(request);
     }
 

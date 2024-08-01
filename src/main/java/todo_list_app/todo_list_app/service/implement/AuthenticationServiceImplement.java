@@ -8,6 +8,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import todo_list_app.todo_list_app.model.Role;
 import todo_list_app.todo_list_app.model.User;
 import todo_list_app.todo_list_app.repository.UserRepository;
 import todo_list_app.todo_list_app.security.JwtService;
@@ -20,6 +21,8 @@ import todo_list_app.todo_list_app.utils.dto.UserDTO;
 import todo_list_app.todo_list_app.utils.request.RefreshTokenRequest;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Service
@@ -39,6 +42,7 @@ public class AuthenticationServiceImplement implements AuthenticationService {
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
+                .role(Role.ROLE_ADMIN)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 

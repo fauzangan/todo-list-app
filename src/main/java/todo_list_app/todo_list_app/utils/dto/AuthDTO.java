@@ -1,6 +1,8 @@
 package todo_list_app.todo_list_app.utils.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 public class AuthDTO {
 
@@ -20,7 +22,11 @@ public class AuthDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class AuthenticationRequest {
+
+        @NotBlank(message = "Email cannot be empty")
         private String email;
+
+        @NotBlank(message = "Password cannot be empty")
         private String password;
     }
 
